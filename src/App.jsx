@@ -1,18 +1,31 @@
-import { Outlet, useLoaderData } from "react-router-dom"
+import { useLoaderData, useSearchParams } from "react-router-dom"
 import Regions from "./Layout"
 
 
 export default function App(){
   const data=useLoaderData()
+  const [searchParams,setSearchParams]=useSearchParams()
+  //The regionFilter variable is used to filter the countries
+  const regionFilter=searchParams.get('region')
+  console.log(regionFilter)
+
+  const displayedRegions= regionFilter ? data.filter(country => country.region.toLowerCase() === regionFilter) :data
+
+
 
   return(
     <>
-      <Regions />
+      <button onClick={()=>setSearchParams({region:'africa'})}>Africa</button>
+      <button onClick={()=>setSearchParams({region:'americas'})}>America</button>
+      <button onClick={()=>setSearchParams({region:'antarctic'})}>Antarctic</button>
+      <button onClick={()=>setSearchParams({region:'asia'})}>Asia</button>
+      <button onClick={()=>setSearchParams({region:'europe'})}>Europe</button>
+      <button onClick={()=>setSearchParams({region:'oceania'})}>Oceania</button>
       
       
       <ul className="all:pt-2">
         {
-          data.map((country)=><li key={country.name.common}>
+          displayedRegions.map((country)=><li key={country.name.common}>
 
             <img src={country.flags.png} alt="" />
 
