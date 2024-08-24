@@ -1,15 +1,37 @@
+import { useState } from "react"
 import { NavLink, Outlet, useLoaderData, useSearchParams } from "react-router-dom"
+
 
 
 export default function App(){
 
   const data=useLoaderData()
   const [searchParams,setSearchParams]=useSearchParams()
+  const [searchTerm,setSearchTerm]=useState('')
+  const [filtered,setFiltered]=useState(data)
+
+
   //The regionFilter variable is used to filter the countries
   const regionFilter=searchParams.get('region')
   console.log(regionFilter)
 
-  const displayedRegions= regionFilter ? data.filter(country => country.region.toLowerCase() === regionFilter) :data
+  const displayedRegions= regionFilter ? filtered.filter(country => country.region.toLowerCase() === regionFilter) :filtered
+
+  
+
+  function handleChange(e) {
+    setSearchTerm(e.target.value)
+    const filteredItems = data.filter((country) =>
+      country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      setFiltered(filteredItems);
+    
+  }
+
+
+  
+
 
 
 
@@ -22,6 +44,14 @@ export default function App(){
       <button onClick={()=>setSearchParams({region:'asia'})}>Asia</button>
       <button onClick={()=>setSearchParams({region:'europe'})}>Europe</button>
       <button onClick={()=>setSearchParams({region:'oceania'})}>Oceania</button>
+
+      <input type="text" 
+        placeholder="Type to search"
+        value={searchTerm}
+        onChange={handleChange}
+        style={{display:'block',border:'5px'}}
+      />
+      
       
       
       <ul className="all:pt-2">
