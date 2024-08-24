@@ -1,8 +1,8 @@
-import { useLoaderData, useSearchParams } from "react-router-dom"
-import Regions from "./Layout"
+import { NavLink, Outlet, useLoaderData, useSearchParams } from "react-router-dom"
 
 
 export default function App(){
+
   const data=useLoaderData()
   const [searchParams,setSearchParams]=useSearchParams()
   //The regionFilter variable is used to filter the countries
@@ -15,6 +15,7 @@ export default function App(){
 
   return(
     <>
+      <Outlet />
       <button onClick={()=>setSearchParams({region:'africa'})}>Africa</button>
       <button onClick={()=>setSearchParams({region:'americas'})}>America</button>
       <button onClick={()=>setSearchParams({region:'antarctic'})}>Antarctic</button>
@@ -25,7 +26,7 @@ export default function App(){
       
       <ul className="all:pt-2">
         {
-          displayedRegions.map((country)=><li key={country.name.common}>
+          displayedRegions.map((country)=><NavLink key={country.name.common}>
 
             <img src={country.flags.png} alt="" />
 
@@ -34,9 +35,11 @@ export default function App(){
             <p>Region: {country.region}</p>
             <p>Capital: {country.capital}</p>
             
-          </li>)
+          </NavLink>)
         }
       </ul>
+      
+
     </>
   )
 }
