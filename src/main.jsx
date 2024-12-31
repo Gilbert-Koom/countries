@@ -10,7 +10,7 @@ const router=createBrowserRouter([
 		path:'/',
 		element:<App />,
 		loader: async()=>{
-			const data= await fetch('https://restcountries.com/v3.1/lang/spanish');
+			const data= await fetch('https://restfulcountries.com/api/v1/countries');
 			const res= await data.json();
 			return res;
 
