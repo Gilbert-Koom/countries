@@ -12,6 +12,7 @@ const router=createBrowserRouter([
 		loader: async()=>{
 			const data= await fetch('https://restfulcountries.com/api/v1/countries');
 			const res= await data.json();
+			console.log(res);
 			return res;
 
 
